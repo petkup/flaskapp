@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note App</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 40px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        textarea {
+            min-height: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Note container styles */
+        .note-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .note {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .note:hover {
+            transform: scale(1.02);
+        }
+        .note h2 {
+            font-size: 18px;
+            margin: 0 0 10px;
+            font-weight: 700;
+        }
+        .note p {
+            font-size: 14px;
+            color: #555;
+            margin: 0;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .note-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>My Notes</h1>
+
+    <!-- Form to create a new note -->
+    <form action="/add" method="POST">
+        <input type="text" name="title" placeholder="Title" required>
+        <textarea name="content" placeholder="Take a note..." required></textarea>
+        <button type="submit">Add Note</button>
+    </form>
+
+    <!-- Display notes -->
+    <div class="note-container">
+        {% for note in notes %}
+        <div class="note">
+            <h2>{{ note.title }}</h2>
+            <p>{{ note.content }}</p>
+            <a href="{{ url_for('edit_note', id=note.id) }}" class="btn">Edit</a>
+            <a href="{{ url_for('delete_note', id=note.id) }}" class="btn btn-delete">Delete</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
